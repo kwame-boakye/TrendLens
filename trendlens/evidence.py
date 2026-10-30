@@ -42,8 +42,13 @@ def explain_opportunity(
     *,
     client: GemmaClient | None = None,
     tc: ThemeConfig | None = None,
+    live: bool = True,
 ) -> tuple[str, bool]:
-    """Return (explanation, grounded_ok). grounded_ok=False if a cited id is invalid."""
+    """Return (explanation, grounded_ok). grounded_ok=False if a cited id is invalid.
+
+    live=False forces the instant deterministic summary (no model call) — used for
+    anything rendered automatically so the UI never blocks on a slow/rate-limited call.
+    """
     tc = tc or load_theme_config()
     client = client or GemmaClient()
 
@@ -51,7 +56,7 @@ def explain_opportunity(
     counter = contradicting_campaigns(conn, opp.counter_ids)
     valid_ids = {r["id"] for r in support} | {r["id"] for r in counter}
 
-    if not client.available:
+    if not live or not client.available:
         # Deterministic, fully-grounded summary when offline.
         lead = ", ".join(f'[{r["id"]}]' for r in support[:3]) or "no records"
         return (

@@ -79,7 +79,10 @@ class GemmaClient:
         if self._client is None:
             from openai import OpenAI  # local import keeps offline paths import-free
 
-            self._client = OpenAI(base_url=self.cfg.base_url, api_key=self.cfg.api_key)
+            # Fail fast: no internal retry backoff (which makes rate-limited calls hang)
+            # and a bounded timeout, so callers fall back quickly instead of freezing.
+            self._client = OpenAI(base_url=self.cfg.base_url, api_key=self.cfg.api_key,
+                                  timeout=45.0, max_retries=0)
         return self._client
 
     def list_models(self) -> list[str]:

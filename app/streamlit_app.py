@@ -102,7 +102,9 @@ with st.sidebar:
     st.markdown("## 🔭 TrendLens")
     st.caption("From market research to marketing decisions")
     st.markdown("---")
-    nav = st.radio("Navigate", ["🏠 Home", "📊 Results"], label_visibility="collapsed")
+    if st.session_state.pop("_goto_results", False):
+        st.session_state["navradio"] = "📊 Results"  # set before the widget is created
+    nav = st.radio("Navigate", ["🏠 Home", "📊 Results"], key="navradio", label_visibility="collapsed")
     st.markdown("---")
     st.caption("🟢 Live Gemma 4" if CLIENT_READY else "⚪ Offline fallback")
 
@@ -176,7 +178,7 @@ def render_home():
         st.session_state.analysis = analysis
         st.session_state.extra = []
         st.session_state.sel = None
-        st.success("Analysis complete — open **Results** in the sidebar.")
+        st.session_state["_goto_results"] = True
         st.rerun()
 
     if example:
@@ -186,6 +188,7 @@ def render_home():
         st.session_state.analysis = analysis
         st.session_state.extra = []
         st.session_state.sel = None
+        st.session_state["_goto_results"] = True
         st.rerun()
 
     with st.expander("What does the example data look like? (brand-neutral — Spotify was only a reference)"):
@@ -250,7 +253,8 @@ def render_results():
     with center:
         st.markdown(f"### {friendly_title(opp.label)} &nbsp; {badge_html(confidence_label(opp))}",
                     unsafe_allow_html=True)
-        exp_text, grounded = explain_opportunity(opp, conn, client=client, tc=tc)
+        # live=False -> instant deterministic summary (never blocks the page).
+        exp_text, grounded = explain_opportunity(opp, conn, client=client, tc=tc, live=False)
         st.write(exp_text if grounded else "Customers raise this need more than competitors emphasize it.")
 
         st.markdown("**Why we recommend this**")
@@ -307,7 +311,7 @@ def render_results():
     with right:
         st.markdown("#### Recommended next step")
         if st.button("Generate A/B test with Gemma", type="primary", use_container_width=True):
-            summary, _ = explain_opportunity(opp, conn, client=client, tc=tc)
+            summary, _ = explain_opportunity(opp, conn, client=client, tc=tc, live=False)
             with st.spinner("Gemma 4 is drafting the experiment…"):
                 st.session_state[f"exp_{opp.theme}"] = generate_experiment(opp, summary, client=client, tc=tc)
         exp = st.session_state.get(f"exp_{opp.theme}")
