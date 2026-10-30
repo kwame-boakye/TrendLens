@@ -36,6 +36,8 @@ from trendlens.scoring import rank_opportunities  # noqa: E402
 
 st.set_page_config(page_title="TrendLens", page_icon="🔭", layout="wide")
 
+LOGO = ROOT / "assets" / "trendlens_logo.jpg"
+
 st.markdown(
     """
     <style>
@@ -118,7 +120,7 @@ with st.sidebar:
 
 # ==================================================================== HOME ===
 def render_home():
-    st.title("Welcome to TrendLens")
+    st.image(str(LOGO), width=440)
     st.write("Turn customer feedback and competitor insights into clear marketing recommendations — for **any company, any industry**.")
 
     cols = st.columns(4)
@@ -225,6 +227,7 @@ def render_results():
     cls_post_by_id = {c.id: c for c in cls_posts}
     top = [o for o in opportunities if o.status == "ok"]
 
+    st.image(str(LOGO), width=240)
     if a.get("note"):
         st.caption("ℹ " + a["note"])
     st.title(f"Top Opportunities for {a['company']}")
