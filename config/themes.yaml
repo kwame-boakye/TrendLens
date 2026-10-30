@@ -3,13 +3,13 @@
 # windows. The constrained theme vocabulary is what Gemma is allowed to emit and what
 # scoring aggregates over. Keep it to 4-8 themes.
 
-vertical: beverage            # seed vertical for the demo (change to skincare, etc.)
+vertical: music & media streaming     # brand-neutral; mirrors the Spotify case study without naming real companies
 
-# Competitor brands whose campaigns we map. Consumer posts may mention these too.
+# Fictional, brand-neutral competitor apps (no real companies).
 brands:
-  - FizzWell
-  - PureSip
-  - NovaCola
+  - Streamly
+  - Wavecast
+  - Tunefox
 
 # Two periods of consumer commentary, used for the "recent momentum" scoring component.
 periods:
@@ -19,24 +19,24 @@ periods:
 # Constrained theme vocabulary (4-8). `synonyms` drive the deterministic keyword
 # fallback classifier AND counterevidence keyword matching when the model is offline.
 themes:
-  taste:
-    label: "Taste & flavor"
-    synonyms: [taste, flavor, flavour, sweet, bitter, delicious, bland, refreshing]
-  affordability:
-    label: "Affordability & price"
-    synonyms: [price, expensive, cheap, afford, value, cost, pricey, worth]
-  convenience:
-    label: "Convenience & availability"
-    synonyms: [convenient, easy, grab, on-the-go, portable, stock, available]
-  packaging:
-    label: "Packaging & design"
-    synonyms: [packaging, bottle, can, label, design, recyclable, plastic]
-  health:
-    label: "Health & low-sugar"
-    synonyms: [sugar, healthy, calories, natural, additive, diet, low-sugar, guilt]
-  sustainability:
-    label: "Sustainability"
-    synonyms: [sustainable, eco, recycle, environment, carbon, green, planet]
+  variety:
+    label: "Variety (less repetitive)"
+    synonyms: [repetitive, repeat, repeats, variety, varied, rotation, boring, stale, fresh, samey]
+  control:
+    label: "Control & customization"
+    synonyms: [control, customize, customise, customization, manual, skip, choose, adjust, settings, tune]
+  discovery:
+    label: "Discovery & personalization"
+    synonyms: [discover, discovery, recommend, recommendation, recommendations, personalized, personalised, explore, suggestion, suggestions]
+  price:
+    label: "Price & subscription"
+    synonyms: [price, expensive, cheap, afford, affordable, cost, subscription, premium, worth]
+  audio_quality:
+    label: "Audio quality"
+    synonyms: [quality, sound, bitrate, audio, lossless, crisp, hi-fi]
+  ads:
+    label: "Ads & interruptions"
+    synonyms: [ad, ads, advert, adverts, interrupt, interruptions, commercial]
 
 # Scoring guardrails (see trendlens/scoring.py). All weights sum to 1.0.
 scoring:

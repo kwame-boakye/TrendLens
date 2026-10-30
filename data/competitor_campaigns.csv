@@ -1,29 +1,29 @@
 id,date,brand,channel,message,url,is_synthetic
-c001,2026-09-08,FizzWell,youtube,Bold refreshing flavor you'll love — taste the FizzWell difference.,synthetic://campaigns/c001,true
-c002,2026-07-15,NovaCola,youtube,Bold refreshing flavor you'll love — taste the NovaCola difference.,synthetic://campaigns/c002,true
-c003,2026-08-16,NovaCola,youtube,Unbeatable value. NovaCola gives you more for less — affordable every day.,synthetic://campaigns/c003,true
-c004,2026-09-25,FizzWell,instagram,Unbeatable value. FizzWell gives you more for less — affordable every day.,synthetic://campaigns/c004,true
-c005,2026-10-02,PureSip,billboard,Unbeatable value. PureSip gives you more for less — affordable every day.,synthetic://campaigns/c005,true
-c006,2026-07-15,FizzWell,tv,Unbeatable value. FizzWell gives you more for less — affordable every day.,synthetic://campaigns/c006,true
-c007,2026-08-25,PureSip,youtube,Unbeatable value. PureSip gives you more for less — affordable every day.,synthetic://campaigns/c007,true
-c008,2026-08-27,NovaCola,billboard,Unbeatable value. NovaCola gives you more for less — affordable every day.,synthetic://campaigns/c008,true
-c009,2026-08-15,PureSip,email,"Low-sugar, fewer calories. PureSip is the healthy choice.",synthetic://campaigns/c009,true
-c010,2026-08-25,FizzWell,billboard,"Low-sugar, fewer calories. FizzWell is the healthy choice.",synthetic://campaigns/c010,true
-c011,2026-08-15,PureSip,instagram,"Low-sugar, fewer calories. PureSip is the healthy choice.",synthetic://campaigns/c011,true
-c012,2026-10-11,NovaCola,email,"Low-sugar, fewer calories. NovaCola is the healthy choice.",synthetic://campaigns/c012,true
-c013,2026-09-08,NovaCola,youtube,"Grab NovaCola on the go — convenient cans, always within reach.",synthetic://campaigns/c013,true
-c014,2026-09-03,NovaCola,youtube,"Grab NovaCola on the go — convenient cans, always within reach.",synthetic://campaigns/c014,true
-c015,2026-10-14,PureSip,instagram,"Grab PureSip on the go — convenient cans, always within reach.",synthetic://campaigns/c015,true
-c016,2026-08-25,FizzWell,billboard,"Grab FizzWell on the go — convenient cans, always within reach.",synthetic://campaigns/c016,true
-c017,2026-10-16,NovaCola,instagram,"Grab NovaCola on the go — convenient cans, always within reach.",synthetic://campaigns/c017,true
-c018,2026-10-28,PureSip,youtube,"New PureSip bottle design — sleek, premium, recyclable.",synthetic://campaigns/c018,true
-c019,2026-07-16,NovaCola,tv,"New NovaCola bottle design — sleek, premium, recyclable.",synthetic://campaigns/c019,true
-c020,2026-09-13,PureSip,email,"New PureSip bottle design — sleek, premium, recyclable.",synthetic://campaigns/c020,true
-c021,2026-08-24,NovaCola,tv,"New NovaCola bottle design — sleek, premium, recyclable.",synthetic://campaigns/c021,true
-c022,2026-07-13,PureSip,billboard,"PureSip for the planet — sustainable, eco-friendly, carbon-neutral.",synthetic://campaigns/c022,true
-c023,2026-07-21,NovaCola,youtube,"NovaCola for the planet — sustainable, eco-friendly, carbon-neutral.",synthetic://campaigns/c023,true
-c024,2026-07-02,FizzWell,email,"FizzWell for the planet — sustainable, eco-friendly, carbon-neutral.",synthetic://campaigns/c024,true
-c025,2026-10-11,PureSip,email,"PureSip for the planet — sustainable, eco-friendly, carbon-neutral.",synthetic://campaigns/c025,true
-c026,2026-10-09,PureSip,instagram,"PureSip for the planet — sustainable, eco-friendly, carbon-neutral.",synthetic://campaigns/c026,true
-c027,2026-09-12,PureSip,tv,"PureSip for the planet — sustainable, eco-friendly, carbon-neutral.",synthetic://campaigns/c027,true
-c028,2026-09-25,NovaCola,instagram,"NovaCola for the planet — sustainable, eco-friendly, carbon-neutral.",synthetic://campaigns/c028,true
+c001,2026-07-15,Wavecast,email,Never repetitive — Wavecast keeps your playlists fresh with endless variety.,synthetic://campaigns/c001,true
+c002,2026-08-16,Tunefox,email,Never repetitive — Tunefox keeps your playlists fresh with endless variety.,synthetic://campaigns/c002,true
+c003,2026-09-25,Streamly,instagram,Take control — customize and fine-tune every recommendation on Streamly.,synthetic://campaigns/c003,true
+c004,2026-10-02,Wavecast,billboard,Take control — customize and fine-tune every recommendation on Wavecast.,synthetic://campaigns/c004,true
+c005,2026-07-15,Streamly,tiktok,Discover your next favorite — Streamly personalized recommendations made for you.,synthetic://campaigns/c005,true
+c006,2026-08-25,Wavecast,email,Discover your next favorite — Wavecast personalized recommendations made for you.,synthetic://campaigns/c006,true
+c007,2026-08-27,Tunefox,billboard,Discover your next favorite — Tunefox personalized recommendations made for you.,synthetic://campaigns/c007,true
+c008,2026-08-15,Wavecast,youtube,Discover your next favorite — Wavecast personalized recommendations made for you.,synthetic://campaigns/c008,true
+c009,2026-08-25,Streamly,billboard,Discover your next favorite — Streamly personalized recommendations made for you.,synthetic://campaigns/c009,true
+c010,2026-08-15,Wavecast,instagram,Discover your next favorite — Wavecast personalized recommendations made for you.,synthetic://campaigns/c010,true
+c011,2026-10-11,Tunefox,youtube,Discover your next favorite — Tunefox personalized recommendations made for you.,synthetic://campaigns/c011,true
+c012,2026-09-08,Tunefox,email,Premium sound at an affordable price — try Tunefox Premium today.,synthetic://campaigns/c012,true
+c013,2026-09-03,Tunefox,email,Premium sound at an affordable price — try Tunefox Premium today.,synthetic://campaigns/c013,true
+c014,2026-10-14,Wavecast,instagram,Premium sound at an affordable price — try Wavecast Premium today.,synthetic://campaigns/c014,true
+c015,2026-08-25,Streamly,billboard,Premium sound at an affordable price — try Streamly Premium today.,synthetic://campaigns/c015,true
+c016,2026-10-16,Tunefox,instagram,Premium sound at an affordable price — try Tunefox Premium today.,synthetic://campaigns/c016,true
+c017,2026-10-28,Wavecast,email,Premium sound at an affordable price — try Wavecast Premium today.,synthetic://campaigns/c017,true
+c018,2026-07-16,Tunefox,tiktok,Lossless hi-fi audio — hear every detail with Tunefox.,synthetic://campaigns/c018,true
+c019,2026-09-13,Wavecast,youtube,Lossless hi-fi audio — hear every detail with Wavecast.,synthetic://campaigns/c019,true
+c020,2026-08-24,Tunefox,tiktok,Lossless hi-fi audio — hear every detail with Tunefox.,synthetic://campaigns/c020,true
+c021,2026-07-13,Wavecast,billboard,Lossless hi-fi audio — hear every detail with Wavecast.,synthetic://campaigns/c021,true
+c022,2026-07-21,Tunefox,email,Lossless hi-fi audio — hear every detail with Tunefox.,synthetic://campaigns/c022,true
+c023,2026-07-02,Streamly,youtube,"Ad-free listening, no interruptions — upgrade to Streamly Premium.",synthetic://campaigns/c023,true
+c024,2026-10-11,Wavecast,youtube,"Ad-free listening, no interruptions — upgrade to Wavecast Premium.",synthetic://campaigns/c024,true
+c025,2026-10-09,Wavecast,instagram,"Ad-free listening, no interruptions — upgrade to Wavecast Premium.",synthetic://campaigns/c025,true
+c026,2026-09-12,Wavecast,tiktok,"Ad-free listening, no interruptions — upgrade to Wavecast Premium.",synthetic://campaigns/c026,true
+c027,2026-09-25,Tunefox,instagram,"Ad-free listening, no interruptions — upgrade to Tunefox Premium.",synthetic://campaigns/c027,true
+c028,2026-09-20,Streamly,tiktok,"Ad-free listening, no interruptions — upgrade to Streamly Premium.",synthetic://campaigns/c028,true

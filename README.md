@@ -87,13 +87,28 @@ streamlit run app/streamlit_app.py
 | `FALLBACK_MODEL_ID` | `gemma-3-27b-it` — open-weight fallback if the Gemma 4 id isn't enabled |
 | `INFERENCE_API_KEY` | your Google AI Studio key — **never committed** |
 
-## Sample data
+## Industry-agnostic — the demo is just one example
 
-All rows are **clearly-labeled synthetic** (`is_synthetic=true`, `synthetic://` provenance URLs) —
-never presented as real market data. The set is engineered so the demo has one strong gap (**taste**),
-one already-covered theme (**affordability**), and one **insufficient-evidence** theme
-(**sustainability**). Swap vertical/brands/themes in [`config/themes.yaml`](config/themes.yaml) with
-zero code changes.
+TrendLens works for **any industry**: point it at a set of customer feedback + competitor campaigns
+and it runs the same Discover → Connect → Validate → Recommend workflow. The industry, brands, and
+theme vocabulary all live in one file, [`config/themes.yaml`](config/themes.yaml) — swap it with
+**zero code changes**.
+
+The shipped demo uses a **brand-neutral music/streaming** example (fictional brands; mirrors a
+Spotify-style case study without naming real companies). All rows are **clearly-labeled synthetic**
+(`is_synthetic=true`, `synthetic://` provenance), engineered so the demo has two clear gaps
+(**variety**, **control** — consumers want them, competitors barely message them), two already-covered
+needs (**discovery**, **price**), and one **insufficient-evidence** need (**ads**).
+
+## How TrendLens decides objectively
+
+A recommendation is only useful if it's defensible. TrendLens ranks opportunities with **predefined,
+deterministic scoring** (consumer-demand percentile, recent momentum, messaging underrepresentation,
+evidence quality — minus penalties for contradictions and tiny samples), gates anything below the
+evidence bar as *insufficient evidence*, cites **real record IDs** for every claim, and exposes the
+full calculation in a **"How we arrived at this" audit trail**. It never asserts a magnitude it didn't
+measure — it outputs an **A/B experiment with a success metric** so the business can measure the real
+effect. Same inputs → same recommendation, every time.
 
 ## Testing
 
