@@ -23,6 +23,7 @@ from trendlens.data_io import build_index, load_campaigns, load_posts  # noqa: E
 from trendlens.evidence import explain_opportunity  # noqa: E402
 from trendlens.experiment import generate_experiment  # noqa: E402
 from trendlens.inference import GemmaClient  # noqa: E402
+from trendlens.recommend import executive_brief  # noqa: E402
 from trendlens.schemas import ClassifiedRecord, CompetitorCampaign  # noqa: E402
 from trendlens.scoring import rank_opportunities  # noqa: E402
 
@@ -74,9 +75,63 @@ st.info(
     icon="⚠️",
 )
 
-board, inspector, builder = st.tabs(
-    ["📊 Opportunity Board", "🔍 Evidence & Counterevidence", "🧪 Experiment Builder"]
+brief_tab, board, inspector, builder = st.tabs(
+    ["📋 Executive Brief", "📊 Opportunity Board", "🔍 Evidence & Counterevidence", "🧪 Experiment Builder"]
 )
+
+# --- Executive Brief (the CEO-ready output) ------------------------------- #
+with brief_tab:
+    st.subheader("Executive Brief — what to tell the CEO")
+    st.caption(
+        "Scrapers and dashboards give you raw research. TrendLens turns the *validated* "
+        "analysis into one decision. Prioritization and confidence are computed "
+        "deterministically; Gemma 4 writes the grounded narrative around them."
+    )
+    if st.button("Generate executive brief with Gemma", type="primary"):
+        conn = build_index(posts, campaigns)
+        with st.spinner("Gemma 4 is writing the brief…"):
+            brief = executive_brief(opportunities, posts, conn, client=client, tc=tc)
+        if brief is None:
+            st.warning("No validated opportunity meets the evidence bar yet.")
+        else:
+            badge = {"high": "🟢 High", "medium": "🟡 Medium", "low": "🔴 Low"}[brief.confidence]
+            st.markdown(f"## {brief.headline}")
+            st.markdown(f"**Confidence (deterministic): {badge}**  ·  Top theme: **{brief.top_label}**  ·  Runner-up: {brief.runner_up}")
+            st.markdown(f"**Why:** {brief.rationale}")
+            st.success(f"**Recommended next step:** {brief.recommended_action}")
+            if brief.watchouts:
+                st.markdown("**Watch-outs (incl. data-reliability):**")
+                for w in brief.watchouts:
+                    st.markdown(f"- ⚠ {w}")
+
+            # Objectivity: show exactly how this recommendation was derived.
+            top = opp_by_theme.get(brief.top_theme)
+            if top:
+                w = tc.scoring.get("weights", {})
+                c = top.components
+                ss = top.sample_sizes
+                with st.expander("🔎 How we arrived at this — audit trail (every number is traceable)"):
+                    st.markdown(
+                        f"**Opportunity score = {top.score:.2f}**, computed deterministically:\n\n"
+                        f"`0.30×{c.consumer_freq} (demand) + 0.25×{c.momentum} (momentum) "
+                        f"+ 0.25×{c.underrepresentation} (underrep) + 0.20×{c.evidence_quality} (evidence) "
+                        f"− penalties`"
+                    )
+                    st.markdown(
+                        f"- **Consumer demand** = {ss.get('support',0)} / {ss.get('posts',0)} posts "
+                        f"= {top.consumer_share:.0%}\n"
+                        f"- **Competitor coverage** = {len(top.counter_ids)} / {ss.get('campaigns',0)} campaigns "
+                        f"= {top.competitor_coverage:.0%}\n"
+                        f"- **Confidence** `{brief.confidence}` is a fixed rule over score + sample size + contradictions"
+                    )
+                    st.markdown("**Supporting records:** " + ", ".join(f"`[{i}]`" for i in top.support_ids[:12]))
+                    st.caption(
+                        "We do NOT output an arbitrary magnitude (e.g. 'cut social spend 20%'). "
+                        "We output an evidence-ranked gap and the experiment to measure the real "
+                        "effect — so the decision is objective and reproducible, not a guess."
+                    )
+    else:
+        st.info("Click to synthesize the top validated opportunity into a one-meeting recommendation.")
 
 # --- Opportunity Board ---------------------------------------------------- #
 with board:

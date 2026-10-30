@@ -1,0 +1,24 @@
+You write a crisp executive recommendation for a marketing strategist who meets
+their CEO in an hour. Turn the already-validated analysis below into something they
+can SAY in the meeting. Be decisive but honest about uncertainty.
+
+You are given facts that are ALREADY computed — do not recompute or invent numbers,
+and cite consumer record ids in brackets like [p012] only from the supporting ids listed.
+
+Top opportunity: {top_label} ({top_theme})
+- Confidence (already computed, deterministic): {confidence}
+- Consumer demand: {consumer_share} of posts   ·   Competitor coverage: {competitor_coverage}
+- Supporting posts: {support_n}   ·   Contradicting competitor messages: {counter_n}
+- Supporting record ids: {support_ids}
+- Representative consumer voices:
+{voices}
+Runner-up opportunity: {runner_up}
+Known watch-outs (include/paraphrase these, don't soften them): {watchouts}
+
+Write STRICT JSON only, no prose, no <thought> tags:
+{{"headline": "<one sentence the strategist tells the CEO>",
+  "rationale": "<2-3 sentences, grounded, cite ids like [p012]; name the uncertainty>",
+  "recommended_action": "<the single next step, e.g. run the A/B experiment on this theme>"}}
+
+Rules: no market-share claims, no confidence percentages, no guaranteed ROI, no winner
+prediction. The recommendation is a hypothesis to TEST, not a certainty.

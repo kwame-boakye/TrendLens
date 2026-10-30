@@ -101,6 +101,22 @@ class Opportunity(BaseModel):
 # --------------------------------------------------------------------------- #
 # Contract C — generated experiment.
 # --------------------------------------------------------------------------- #
+class ExecutiveBrief(BaseModel):
+    """CEO-ready synthesis: the one thing to act on, why, how sure, and what next.
+
+    Prioritization + confidence are computed deterministically (see recommend.py);
+    Gemma only writes the grounded narrative. This is Contract D.
+    """
+    headline: str = ""                                 # one line a strategist says to the CEO
+    top_theme: str = ""
+    top_label: str = ""
+    confidence: Literal["high", "medium", "low"] = "low"   # deterministic, not model-claimed
+    rationale: str = ""                                # grounded narrative, cites record ids
+    recommended_action: str = ""
+    watchouts: list[str] = Field(default_factory=list)  # incl. data-reliability flags
+    runner_up: str = ""
+
+
 class Experiment(BaseModel):
     hypothesis: str
     a_copy: str

@@ -7,6 +7,25 @@ missing from competitor messaging** — surfaces the evidence for and against ea
 **falsify** a gap by adding a contradicting competitor message (the score drops in front of you),
 and turns only *supported* gaps into a testable A/B experiment.
 
+**The one-line demo:** *open TrendLens, pick a customer need, and it shows — with the actual
+customer quotes as proof — the gap your competitors are missing; add a competitor message covering
+that need and the gap score objectively drops, proving the recommendation is driven by evidence, not
+guesswork.*
+
+**Why the output is objective (not "cut spend 20%").** Scrapers and dashboards give raw research;
+anyone can produce a confident-sounding number. TrendLens refuses to assert a magnitude it didn't
+measure. Every opportunity score is a published formula over **auditable record counts**, confidence
+is a **fixed deterministic rule** (score + sample size + contradictions), each claim **cites real
+record IDs**, and the recommendation is an **A/B experiment with a defined success metric** — i.e. a
+way to *measure* the effect, not a fabricated percentage. The "How we arrived at this" audit trail in
+the app shows the exact inputs for any recommendation.
+
+**Data: we analyze, we don't scrape.** Collection (social listening, app-store/review APIs, scraping
+agents) is a solved, commoditized layer — TrendLens is the missing *analysis & validation* layer that
+sits on top of it. You bring consumer records + competitor campaigns as CSV (from any source, with
+provenance); TrendLens flags data-reliability risks (evidence concentrated in one brand/source — a
+manipulation/astroturf signal) and never lets an unsupported claim through.
+
 Built for the MLH open-source AI challenges using **Google Gemma 4** (open-weight)
 ([`mlh.link/gemma`](https://mlh.link/gemma)), served via the Google Gemini API's
 OpenAI-compatible endpoint. The inference layer is provider-agnostic — it also runs
