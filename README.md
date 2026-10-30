@@ -125,18 +125,6 @@ Covers schema invariants and deterministic scoring, including the signature nega
 > theme-extraction agreement on gold labels · evidence-citation validity · JSON parse success ·
 > median & p95 Gemma latency · end-to-end demo completion rate · scoring correctness on fixtures.
 
-## Limitations
-
-Small, partly synthetic sample. Scores are heuristics, **not** statistically comparable market share.
-TrendLens never claims a guaranteed market gap, calibrated AI confidence, or guaranteed ROI, and never
-predicts which A/B variant will win.
-
-## Team roles
-
-- **Engineer A** — AI & inference (DO connectivity, prompts, classification, grounded synthesis, JSON validation, caching).
-- **Engineer B** — data & app (ingestion, scoring, evidence retrieval, Streamlit, counterevidence, deploy, tests).
-- **Marketing owner** — vertical/brands, sourced/labeled data, gold cases, pitch, judge FAQ, business-claim veto.
-
 ## License
 
 Code: **MIT** (see [LICENSE](LICENSE)). Gemma weights: Google's Gemma Terms of Use.
