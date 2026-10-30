@@ -1,0 +1,51 @@
+# Generic cross-industry theme vocabulary — used for UPLOADS by default so any
+# company's data classifies instantly (keyword matching, no live model needed).
+# A "Deep theme discovery with Gemma" toggle can replace this with model-discovered
+# themes when live quota is available.
+
+vertical: your company
+brands: []
+
+periods:
+  previous: { start: "2000-01-01", end: "2049-12-31" }
+  recent:   { start: "2000-01-01", end: "2049-12-31" }
+
+themes:
+  price:
+    label: "Price & value"
+    synonyms: [price, prices, pricing, expensive, cheap, cheaper, cheapest, afford, affordable,
+               cost, costs, costly, fee, fees, value, worth, overpriced, pricey, discount, discounts, deal, deals]
+  speed:
+    label: "Speed & timeliness"
+    synonyms: [slow, fast, faster, quick, quicker, wait, waiting, delay, delayed, late, speed,
+               turnaround, minutes, hour, hours, prompt, timely, "on-time"]
+  quality:
+    label: "Quality"
+    synonyms: [quality, poor, premium, defective, durable, flimsy, fresh, gourmet, "top-rated", craftsmanship]
+  reliability:
+    label: "Reliability"
+    synonyms: [crash, crashes, bug, bugs, buggy, reliable, unreliable, broken, glitch, glitches,
+               freeze, freezes, freezing, outage, error, errors, laggy, lag, unstable]
+  support:
+    label: "Customer support"
+    synonyms: [support, service, help, helpful, staff, response, respond, rude, agent, refund,
+               refunds, resolve, resolution, contact]
+  selection:
+    label: "Selection & variety"
+    synonyms: [variety, varied, selection, choice, choices, options, catalog, range, assortment, menu]
+  convenience:
+    label: "Convenience & ease"
+    synonyms: [easy, convenient, hassle, simple, intuitive, complicated, confusing, difficult, seamless, clunky]
+  experience:
+    label: "App & experience"
+    synonyms: [interface, design, smooth, modern, outdated, clunky, usability, navigation]
+
+scoring:
+  weights:
+    consumer_freq: 0.30
+    momentum: 0.25
+    underrepresentation: 0.25
+    evidence_quality: 0.20
+  min_support_records: 3
+  tiny_sample_penalty: 0.10
+  contradiction_penalty: 0.15

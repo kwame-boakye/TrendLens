@@ -43,6 +43,23 @@ def extract_json(text: str) -> dict | None:
         return None
 
 
+def extract_json_array(text: str) -> list | None:
+    """Pull the first JSON array out of a model response (after stripping reasoning)."""
+    if not text:
+        return None
+    text = _THOUGHT_RE.sub("", text).strip()
+    if text.startswith("```"):
+        text = text.strip("`")
+    start, end = text.find("["), text.rfind("]")
+    if start == -1 or end <= start:
+        return None
+    try:
+        parsed = json.loads(text[start : end + 1])
+        return parsed if isinstance(parsed, list) else None
+    except json.JSONDecodeError:
+        return None
+
+
 @dataclass
 class ChatResult:
     text: str
