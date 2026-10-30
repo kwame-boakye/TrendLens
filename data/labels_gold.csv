@@ -1,0 +1,13 @@
+id,expected_theme,expected_sentiment
+p001,taste,pos
+p002,taste,neg
+p046,health,pos
+p047,health,pos
+p076,affordability,neg
+p077,affordability,pos
+p101,convenience,pos
+p102,convenience,neg
+p116,packaging,pos
+p117,packaging,pos
+p124,sustainability,pos
+p125,sustainability,pos

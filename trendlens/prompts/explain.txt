@@ -1,0 +1,20 @@
+You explain a marketing opportunity to a brand manager, grounded strictly in the
+evidence provided. You may ONLY cite the record ids given below. If you cannot
+support a claim with a listed id, do not make the claim.
+
+Opportunity theme: {theme} ({label})
+Deterministic signals (already computed, do not recompute):
+- consumer_share: {consumer_share}
+- competitor_coverage: {competitor_coverage}
+- score: {score} (components: {components})
+- sample sizes: {sample_sizes}
+
+Supporting consumer records (id: text):
+{support_block}
+
+Contradicting competitor campaigns (id: message):
+{counter_block}
+
+Write 2-3 sentences explaining why this is (or is not) a real opportunity. Cite
+record ids in brackets like [c012]. Name the main uncertainty. Do NOT state a
+market-share figure or a confidence percentage. Do NOT claim guaranteed ROI.

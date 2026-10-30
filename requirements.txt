@@ -1,0 +1,10 @@
+# TrendLens — minimal, intentional dependency set.
+# No Snowflake / LangGraph / Redis / Postgres / Docker — SQLite + CSV only.
+streamlit>=1.40,<2
+plotly>=5.24,<6
+pydantic>=2.9,<3
+pyyaml>=6.0,<7
+python-dotenv>=1.0,<2
+openai>=1.54,<2          # OpenAI-compatible client, pointed at DigitalOcean inference
+pandas>=2.2,<3
+pytest>=8.3,<9           # tests only
