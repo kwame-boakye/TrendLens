@@ -56,6 +56,26 @@ st.markdown(
     .tl-badge-med { background:#E7C3CB; color:#6E1322; padding:2px 10px; border-radius:20px; font-size:12px; }
     .tl-stat { background:#FBEEF0; border-radius:12px; padding:14px; }
     .tl-stat .big { font-size:26px; font-weight:700; color:#8B1A2B; }
+    .eyebrow { color:#8B1A2B; font-size:12px; letter-spacing:.14em; font-weight:700; }
+    .kpi { background:#fff; border:1px solid #F0DADE; border-radius:14px; padding:16px 18px; height:100%; }
+    .kpi .lbl { font-size:11px; letter-spacing:.08em; color:#8a6b70; font-weight:700; }
+    .kpi .num { font-size:30px; font-weight:800; color:#8B1A2B; line-height:1.15;
+                font-family:'Montserrat',sans-serif; }
+    .kpi .sub { font-size:12px; color:#6b5458; }
+    .hero { background:#FBEEF0; border:1px solid #F0C9D1; border-radius:18px; padding:22px 24px; }
+    .hero .tag { background:#6E1322; color:#fff; font-size:11px; letter-spacing:.08em;
+                 padding:4px 12px; border-radius:20px; font-weight:700; }
+    .scorebox { background:#fff; border-radius:14px; padding:16px; }
+    .scorebox .s { font-size:34px; font-weight:800; color:#8B1A2B; font-family:'Montserrat',sans-serif; }
+    .barbg { background:#F0DADE; border-radius:6px; height:10px; width:100%; overflow:hidden; }
+    .barfg { background:#8B1A2B; height:10px; border-radius:6px; }
+    .barfg.light { background:#E7A9B4; }
+    .pill-high { background:#8B1A2B; color:#fff; padding:2px 12px; border-radius:20px; font-size:12px; }
+    .pill-med { background:#E7C3CB; color:#6E1322; padding:2px 12px; border-radius:20px; font-size:12px; }
+    .pill-low { background:#F3E4E7; color:#9b7b80; padding:2px 12px; border-radius:20px; font-size:12px; }
+    .otable { width:100%; border-collapse:collapse; }
+    .otable td, .otable th { padding:10px 8px; border-bottom:1px solid #F0DADE; font-size:13px; vertical-align:middle; }
+    .otable th { text-align:left; color:#8a6b70; font-size:11px; letter-spacing:.04em; }
     </style>
     """,
     unsafe_allow_html=True,
@@ -112,8 +132,8 @@ with st.sidebar:
     st.caption("From market research to marketing decisions")
     st.markdown("---")
     if st.session_state.pop("_goto_results", False):
-        st.session_state["navradio"] = "📊 Results"  # set before the widget is created
-    nav = st.radio("Navigate", ["🏠 Home", "📊 Results"], key="navradio", label_visibility="collapsed")
+        st.session_state["navradio"] = "📊 Analysis Results"  # set before the widget is created
+    nav = st.radio("Navigate", ["🏠 Home", "📊 Analysis Results"], key="navradio", label_visibility="collapsed")
     st.markdown("---")
     st.caption("🟢 Live Gemma 4" if CLIENT_READY else "⚪ Offline fallback")
 
@@ -227,77 +247,131 @@ def render_results():
     cls_post_by_id = {c.id: c for c in cls_posts}
     top = [o for o in opportunities if o.status == "ok"]
 
-    st.image(str(LOGO), width=240)
-    if a.get("note"):
-        st.caption("ℹ " + a["note"])
-    st.title(f"Top Opportunities for {a['company']}")
-    st.caption(f"Based on {len(posts)} customer comments, {len(campaigns)} competitor messages"
-               + (", and uploaded campaign results." if a["campaign_perf"] else "."))
-    if st.button("＋ New analysis"):
-        st.session_state.analysis = None
-        st.rerun()
-
     if not top:
-        st.warning("No opportunity met the evidence bar. Try more customer feedback.")
+        st.title("Your Marketing Opportunity Report")
+        st.warning("No opportunity met the evidence bar yet. Try more customer feedback.")
+        if st.button("＋ New analysis"):
+            st.session_state.analysis = None
+            st.rerun()
         return
 
-    if st.session_state.sel not in [o.theme for o in top]:
-        st.session_state.sel = top[0].theme
+    # ---- header
+    ch, cb = st.columns([4, 1])
+    with ch:
+        st.markdown("<div class='eyebrow'>ANALYSIS RESULTS</div>", unsafe_allow_html=True)
+        st.title("Your Marketing Opportunity Report")
+        st.write(f"We analysed {a['company']}'s customer feedback, competitor messaging"
+                 + (", and campaign results" if a["campaign_perf"] else "")
+                 + " to uncover the biggest opportunities for your next marketing campaign.")
+    with cb:
+        st.download_button("⬇ Export Report",
+                           build_report(a["company"], top[0],
+                                        st.session_state.get(f"exp_{top[0].theme}"), posts),
+                           file_name=f"trendlens_{a['company']}.md".replace(" ", "_"),
+                           use_container_width=True)
+        if st.button("＋ New analysis", use_container_width=True):
+            st.session_state.analysis = None
+            st.rerun()
+    if a.get("note"):
+        st.caption("ℹ " + a["note"])
 
-    left, center, right = st.columns([1.1, 2.3, 1.2])
+    # ---- KPI cards
+    brands = sorted({c.brand for c in base_camps})
+    perf = a["campaign_perf"]
+    k1, k2, k3, k4 = st.columns(4)
+    k1.markdown(f"<div class='kpi'><div class='lbl'>CUSTOMER FEEDBACK</div>"
+                f"<div class='num'>{len(posts):,}</div>"
+                f"<div class='sub'>customer comments analysed</div></div>", unsafe_allow_html=True)
+    k2.markdown(f"<div class='kpi'><div class='lbl'>COMPETITOR MESSAGING</div>"
+                f"<div class='num'>{len(brands)}</div>"
+                f"<div class='sub'>competitors: {', '.join(brands[:5]) or '—'}</div></div>",
+                unsafe_allow_html=True)
+    k3.markdown(f"<div class='kpi'><div class='lbl'>CAMPAIGN RESULTS</div>"
+                f"<div class='num'>{len(perf)}</div>"
+                f"<div class='sub'>past campaigns analysed</div></div>", unsafe_allow_html=True)
+    k4.markdown(f"<div class='kpi'><div class='lbl'>TOTAL DATA POINTS</div>"
+                f"<div class='num'>{len(posts)+len(campaigns)+len(perf):,}</div>"
+                f"<div class='sub'>insights processed by TrendLens</div></div>", unsafe_allow_html=True)
+    st.write("")
 
-    # ---- left: ranked opportunity list
-    with left:
-        st.markdown("#### Opportunities")
+    # ---- hero: top opportunity
+    hero = top[0]
+    score100 = int(round(hero.score * 100))
+    checks = [("High customer demand", hero.consumer_share >= 0.30),
+              ("Low competitor coverage", hero.competitor_coverage <= 0.15),
+              ("Strong potential for differentiation",
+               (hero.consumer_share - hero.competitor_coverage) >= 0.20)]
+    check_html = "".join(f"<div>{'✅' if ok else '▫️'} {t}</div>" for t, ok in checks)
+    h1, h2 = st.columns([2.2, 1])
+    with h1:
+        st.markdown(
+            f"<div class='hero'><span class='tag'>TOP OPPORTUNITY</span>"
+            f"<h2 style='margin:.4rem 0'>{hero.label}</h2>"
+            f"<p>Customers frequently mention {hero.label.lower()}, but competitor messaging "
+            f"{'and past campaigns ' if perf else ''}do not emphasize it. This creates a potential "
+            f"opportunity to differentiate {a['company']} in your next marketing campaign.</p>"
+            f"<div style='display:flex; gap:32px; margin-top:12px'>"
+            f"<div><span style='font-size:28px;font-weight:800;color:#8B1A2B'>{hero.consumer_share:.0%}</span>"
+            f"<br><small>of customer comments mention {hero.label.lower()}</small></div>"
+            f"<div><span style='font-size:28px;font-weight:800;color:#8B1A2B'>{hero.competitor_coverage:.0%}</span>"
+            f"<br><small>of competitor messages focus on it</small></div></div></div>",
+            unsafe_allow_html=True)
+    with h2:
+        st.markdown(
+            f"<div class='scorebox'><div style='color:#8a6b70;font-size:12px;font-weight:700'>Opportunity Score</div>"
+            f"<div class='s'>{score100}<span style='font-size:16px;color:#9b7b80'>/100</span></div>"
+            f"<div class='barbg' style='margin:8px 0 12px'><div class='barfg' style='width:{score100}%'></div></div>"
+            f"<div style='font-size:12.5px;color:#4a3b3e;line-height:1.7'>{check_html}</div></div>",
+            unsafe_allow_html=True)
+    st.write("")
+
+    # ---- bottom: ranked table + grouped chart
+    bl, br = st.columns([1.1, 1])
+    with bl:
+        st.markdown("#### All Opportunities Identified")
+        rows = ""
         for i, o in enumerate(top, 1):
             conf = confidence_label(o)
-            label = "🟥 High" if conf == "high" else "🟪 Med"
-            if st.button(f"{i}. {friendly_title(o.label)}  ·  {label}", key=f"sel_{o.theme}",
-                         use_container_width=True):
-                st.session_state.sel = o.theme
+            cls_ = "high" if conf == "high" else "med" if conf == "medium" else "low"
+            txt = "High" if conf == "high" else "Medium" if conf == "medium" else "Lower"
+            d, cov = int(round(o.consumer_share * 100)), int(round(o.competitor_coverage * 100))
+            rows += (f"<tr><td>{i}</td><td><b>{o.label}</b></td>"
+                     f"<td>{d}%<div class='barbg'><div class='barfg' style='width:{d}%'></div></div></td>"
+                     f"<td>{cov}%<div class='barbg'><div class='barfg light' style='width:{cov}%'></div></div></td>"
+                     f"<td><b>{int(round(o.score*100))}</b> &nbsp;<span class='pill-{cls_}'>{txt}</span></td></tr>")
+        st.markdown(
+            "<table class='otable'><tr><th>#</th><th>Opportunity</th><th>Customer Demand</th>"
+            "<th>Competitor Coverage</th><th>Opportunity Score</th></tr>" + rows + "</table>",
+            unsafe_allow_html=True)
+    with br:
+        st.markdown("#### Customer Demand vs. Competitor Coverage")
+        labels = [o.label for o in top]
+        fig = go.Figure()
+        fig.add_bar(name="Customer demand", x=labels, y=[o.consumer_share for o in top],
+                    marker_color="#6E1322")
+        fig.add_bar(name="Competitor coverage", x=labels, y=[o.competitor_coverage for o in top],
+                    marker_color="#E7A9B4")
+        fig.update_layout(barmode="group", height=330, yaxis_tickformat=".0%",
+                          margin=dict(l=0, r=0, t=10, b=0), legend=dict(orientation="h", y=1.18),
+                          plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)")
+        st.plotly_chart(fig, use_container_width=True, key="demandchart")
 
-    opp = opp_by_theme[st.session_state.sel]
+    # ---- explore an opportunity (keeps all interactive features)
+    st.divider()
+    st.markdown("### 🔎 Explore an opportunity")
+    sel = st.selectbox("Opportunity", [o.theme for o in top],
+                       format_func=lambda t: opp_by_theme[t].label, key="explore_sel")
+    opp = opp_by_theme[sel]
     conn = build_index(posts, campaigns)
-
-    # ---- center: the selected opportunity in detail
-    with center:
-        st.markdown(f"### {friendly_title(opp.label)} &nbsp; {badge_html(confidence_label(opp))}",
-                    unsafe_allow_html=True)
-        # live=False -> instant deterministic summary (never blocks the page).
+    d1, d2 = st.columns([1.4, 1])
+    with d1:
         exp_text, grounded = explain_opportunity(opp, conn, client=client, tc=tc, live=False)
         st.write(exp_text if grounded else "Customers raise this need more than competitors emphasize it.")
-
-        st.markdown("**Why we recommend this**")
-        s1, s2, s3 = st.columns(3)
-        s1.markdown(f"<div class='tl-stat'><span class='big'>{opp.consumer_share:.0%}</span><br>"
-                    f"<small>of customer comments mention this need</small></div>", unsafe_allow_html=True)
-        s2.markdown(f"<div class='tl-stat'><span class='big'>{opp.competitor_coverage:.0%}</span><br>"
-                    f"<small>of competitor messages focus on it</small></div>", unsafe_allow_html=True)
-        perf_val = next((r["value"] for r in a["campaign_perf"]
-                         if opp.theme in r["label"].lower() or opp.label.lower() in r["label"].lower()), None)
-        s3.markdown(f"<div class='tl-stat'><span class='big'>{(str(perf_val)+'%') if perf_val is not None else '—'}</span><br>"
-                    f"<small>past-campaign conversion (if uploaded)</small></div>", unsafe_allow_html=True)
-
         st.markdown("**Key customer comments**")
         for pid in opp.support_ids[:3]:
             p = post_by_id.get(pid)
             if p:
                 st.markdown(f"> “{p.text}”  \n<small>`[{pid}]` · {p.brand}</small>", unsafe_allow_html=True)
-
-        st.markdown("**Competitor comparison** — share of each competitor's messages on this need")
-        per_brand = {}
-        for c in campaigns:
-            themes = next((r.themes for r in cls_camps if r.id == c.id), [])
-            per_brand.setdefault(c.brand, [0, 0])
-            per_brand[c.brand][1] += 1
-            if opp.theme in themes:
-                per_brand[c.brand][0] += 1
-        brands = list(per_brand.keys())
-        vals = [(per_brand[b][0] / per_brand[b][1]) if per_brand[b][1] else 0 for b in brands]
-        fig = go.Figure(go.Bar(x=brands, y=vals, marker_color="#8B1A2B"))
-        fig.update_layout(height=240, yaxis_tickformat=".0%", margin=dict(l=0, r=0, t=10, b=0))
-        st.plotly_chart(fig, use_container_width=True, key="compchart")
-
         with st.expander("🔍 Validate — challenge this opportunity (add a competitor message)"):
             st.caption("Add a competitor message on this need. Gemma reclassifies it live and the "
                        "opportunity reassesses — new evidence can falsify it.")
@@ -316,10 +390,8 @@ def render_results():
             if extra and st.button("Reset", key="rst"):
                 st.session_state.extra = []
                 st.rerun()
-
-    # ---- right: recommended next step + how to measure + export
-    with right:
-        st.markdown("#### Recommended next step")
+    with d2:
+        st.markdown("**Recommended next step**")
         if st.button("Generate A/B test with Gemma", type="primary", use_container_width=True):
             summary, _ = explain_opportunity(opp, conn, client=client, tc=tc, live=False)
             with st.spinner("Gemma 4 is drafting the experiment…"):
@@ -329,20 +401,14 @@ def render_results():
             st.markdown(f"**Test:** {exp.hypothesis}")
             st.markdown(f"**A:** {exp.a_copy}")
             st.markdown(f"**B:** {exp.b_copy}")
-            st.markdown(f"**Audience:** {exp.audience}")
-            st.markdown(f"**Metric:** {exp.metric}")
+            st.markdown(f"**Audience:** {exp.audience}  \n**Metric:** {exp.metric}")
         else:
             st.info(f"Test a campaign emphasizing **{opp.label.lower()}**. Click above for Gemma's A/B copy.")
-
         st.markdown("**How to measure success**")
         metric = exp.metric if exp else "conversion rate"
         for item in [f"Track {metric}", "Compare cost per conversion vs other campaigns",
                      "Run the test for 4–8 weeks", "Use the same audience & budget for a fair comparison"]:
             st.markdown(f"- ✅ {item}")
-
-        report = build_report(a["company"], opp, exp, posts)
-        st.download_button("⬇ Export full report", report,
-                           file_name=f"trendlens_{opp.theme}.md", use_container_width=True)
 
 
 def build_report(company, opp, exp, posts) -> str:
