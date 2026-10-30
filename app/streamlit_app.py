@@ -39,6 +39,13 @@ st.set_page_config(page_title="TrendLens", page_icon="🔭", layout="wide")
 st.markdown(
     """
     <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap');
+    html, body, [class*="css"], .stMarkdown, p, div, span, label, input, textarea, button,
+    [data-testid="stMetricValue"] { font-family: 'Inter', sans-serif; }
+    h1, h2, h3, h4, h5, [data-testid="stHeading"] {
+        font-family: 'Montserrat', sans-serif !important; font-weight: 700; letter-spacing: -0.01em;
+    }
+    [data-testid="stSidebar"] h2 { font-family: 'Montserrat', sans-serif !important; }
     [data-testid="stSidebar"] { background: #6E1322; }
     [data-testid="stSidebar"] * { color: #F7E9EC !important; }
     .tl-step { background:#FBEEF0; border-radius:12px; padding:14px 16px; height:100%; }
