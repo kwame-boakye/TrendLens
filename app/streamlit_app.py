@@ -36,6 +36,16 @@ from trendlens.scoring import rank_opportunities  # noqa: E402
 
 st.set_page_config(page_title="TrendLens", page_icon="🔭", layout="wide")
 
+# On Streamlit Community Cloud, secrets arrive via st.secrets, not the environment.
+# Bridge them into os.environ so config.load_inference_config() (which reads os.getenv)
+# picks up the Gemma key when deployed. No-op locally where .env is used instead.
+try:
+    import os as _os
+    for _k, _v in st.secrets.items():
+        _os.environ.setdefault(_k, str(_v))
+except Exception:
+    pass
+
 LOGO = ROOT / "assets" / "trendlens_logo.jpg"
 
 st.markdown(
